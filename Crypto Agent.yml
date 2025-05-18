@@ -1,0 +1,151 @@
+app:
+  description: ''
+  icon: pick
+  icon_background: '#E6F4D7'
+  mode: agent-chat
+  name: Crypto Agent
+  use_icon_as_answer_icon: true
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/google:0.0.8@3efcf55ffeef9d0f77715e0afb23534952ae0cb385c051d0637e86d71199d1a6
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.0.19@6b2b2e115b1b9d34a63eb26fadcc33d74330fd2ec06071bb30b8a24b1fab107a
+kind: app
+model_config:
+  agent_mode:
+    enabled: true
+    max_iteration: 5
+    prompt: null
+    strategy: function_call
+    tools:
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: langgenius/google/google
+      provider_name: langgenius/google/google
+      provider_type: builtin
+      tool_label: GoogleSearch
+      tool_name: google_search
+      tool_parameters:
+        query: ''
+  annotation_reply:
+    enabled: false
+  chat_prompt_config: {}
+  completion_prompt_config: {}
+  dataset_configs:
+    datasets:
+      datasets: []
+    reranking_enable: false
+    retrieval_model: multiple
+    top_k: 4
+  dataset_query_variable: ''
+  external_data_tools: []
+  file_upload:
+    allowed_file_extensions:
+    - .JPG
+    - .JPEG
+    - .PNG
+    - .GIF
+    - .WEBP
+    - .SVG
+    - .MP4
+    - .MOV
+    - .MPEG
+    - .WEBM
+    allowed_file_types: []
+    allowed_file_upload_methods:
+    - remote_url
+    - local_file
+    enabled: false
+    image:
+      detail: high
+      enabled: false
+      number_limits: 3
+      transfer_methods:
+      - remote_url
+      - local_file
+    number_limits: 3
+  model:
+    completion_params:
+      frequency_penalty: 0.5
+      presence_penalty: 0.5
+      stop: []
+      temperature: 0.2
+      top_p: 0.75
+    mode: chat
+    name: gpt-4o
+    provider: langgenius/openai/openai
+  more_like_this:
+    enabled: false
+  opening_statement: ''
+  pre_prompt: "<instruction>\nYou are an AI Crypto Assistant designed to answer user\
+    \ questions about the cryptocurrency market using live off-chain data sources.\
+    \ You must retrieve all required information using Google Search, including prices,\
+    \ market data, and currency conversions.\n\nYour answers must be:\n- Current and\
+    \ accurate\n- Sourced with live links\n- Clearly formatted\n- Currency-converted\
+    \ from USD to KZT with a formula shown\n\nYou are allowed to use the following\
+    \ internet sources:\n1. Crypto news services (e.g., CryptoPanic, CoinDesk, CoinTelegraph)\n\
+    2. Crypto exchanges (e.g., Binance, Coinbase)\n3. Market data services (e.g.,\
+    \ CoinGecko, CoinMarketCap)\n4. Currency rates (via Google search for “1 USD to\
+    \ KZT”)\n\n⚠️ Always use Google Search to retrieve all external data. Do not guess\
+    \ or hardcode anything.\n\n---\n\n\U0001F9E0 Step-by-step Procedure:\n\nStep 1:\
+    \ Determine query type. It will be one or more of:\n- News-related (e.g., “What’s\
+    \ the latest news about Ethereum?”)\n- Price-related (e.g., “What’s the current\
+    \ price of Solana?”)\n- Market data-related (e.g., “What’s the market cap of Solana?”)\n\
+    - Combined queries (e.g., “What’s the current price and market cap of Solana?”)\n\
+    \nStep 2: Extract the cryptocurrency name from the query.  \nSearch: `Top 50 cryptocurrencies\
+    \ site:coingecko.com`  \nIf the coin is not in the top 50, reply:  \n“Sorry, I\
+    \ currently only support information about the top 50 cryptocurrencies by market\
+    \ cap.”\n\nStep 3: Use Google Search to retrieve data:\n- For price: `\"current\
+    \ price of [coin] site:binance.com OR site:coinbase.com\"`\n- For market cap:\
+    \ `\"[coin] market cap site:coingecko.com OR site:coinmarketcap.com\"`\n- For\
+    \ news: `\"latest news [coin] site:coindesk.com OR site:cryptopanic.com\"`\n-\
+    \ For exchange rate: `\"1 USD to KZT\"`\n\nStep 4: For price queries, show USD\
+    \ and KZT values:\n- Show the exchange rate used\n- Show the full formula like:\
+    \ `145.23 × 462.50 = 67,164 KZT`\n- Round the KZT amount to the nearest whole\
+    \ number\n- Provide links for both price and FX rate sources\n\nStep 5: Format\
+    \ the response cleanly, like this:\n- Use plain text\n- Use bullets or sections\n\
+    - Include date and all sources\n\n</instruction>\n\n<example>\n  <user_query>What’s\
+    \ the latest news about Ethereum?</user_query>\n  <coin_name>Ethereum</coin_name>\n\
+    \  <output>\n    \U0001F4F0 Latest Ethereum News (as of May 18, 2025):\n\n   \
+    \ 1. \"Ethereum ETF Approval Expected Soon\" – CoinDesk  \n       https://www.coindesk.com/markets/2025/05/18/ethereum-etf-decision/\n\
+    \n    2. \"Vitalik Buterin Reveals Scaling Roadmap\" – CryptoPanic  \n       https://cryptopanic.com/news/ethereum-scaling-roadmap\n\
+    \n    3. \"Ethereum Fees Hit Yearly Low\" – CoinTelegraph  \n       https://cointelegraph.com/news/ethereum-fees-drop-2025\n\
+    \n    (News sources found using Google Search)\n  </output>\n</example>\n\n<example>\n\
+    \  <user_query>What’s the current price and market cap of Solana?</user_query>\n\
+    \  <coin_name>Solana</coin_name>\n  <output>\n    \U0001F4B0 **Solana (SOL) Price**\
+    \ (as of May 18, 2025):  \n    - Price in USD: $145.23  \n    - Exchange Rate:\
+    \ 1 USD = 462.50 KZT  \n      (Source: https://www.google.com/search?q=1+USD+to+KZT)\
+    \  \n    - Converted Price: 145.23 × 462.50 = **67,164 KZT**  \n      (Source:\
+    \ Binance – https://www.binance.com/en/price/solana)\n\n    \U0001F4CA **Market\
+    \ Cap**:  \n    - $62.1 billion  \n      (Source: CoinGecko – https://www.coingecko.com/en/coins/solana)\n\
+    \  </output>\n</example>\n\n<example>\n  <user_query>What is the market cap of\
+    \ Avalanche?</user_query>\n  <coin_name>Avalanche</coin_name>\n  <output>\n  \
+    \  \U0001F4CA **Avalanche (AVAX) Market Cap** (as of May 18, 2025):  \n    - Market\
+    \ Cap: $14.3 billion  \n      (Source: CoinMarketCap – https://coinmarketcap.com/currencies/avalanche/)\n\
+    \  </output>\n</example>\n\n<example>\n  <user_query>Tell me the price of a coin\
+    \ called XYZToken</user_query>\n  <coin_name>XYZToken</coin_name>\n  <output>\n\
+    \    ❌ Sorry, I currently only support information about the top 50 cryptocurrencies\
+    \ by market cap.\n  </output>\n</example>\n"
+  prompt_type: simple
+  retriever_resource:
+    enabled: true
+  sensitive_word_avoidance:
+    configs: []
+    enabled: false
+    type: ''
+  speech_to_text:
+    enabled: false
+  suggested_questions: []
+  suggested_questions_after_answer:
+    enabled: false
+  text_to_speech:
+    enabled: false
+    language: ''
+    voice: ''
+  user_input_form: []
+version: 0.3.0
